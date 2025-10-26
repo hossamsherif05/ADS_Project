@@ -1,6 +1,12 @@
 #include "queue.h"
 
-Queue::Queue() {
+using namespace std;
+
+#include <iostream>
+#include <ostream>
+
+Queue::Queue()
+{
     frontIndex = 0;
     rearIndex = -1;
     count = 0;
@@ -15,35 +21,40 @@ bool Queue::isFull() const {
 }
 
 void Queue::enqueue(int value) {
-    if (isFull()) {
-        // queue is full, ignore the enqueue
+    if (isFull())
+    {
+   cout << "Queue is full" << endl;
+
         return;
     }
-    // move rear forward in circular way
     rearIndex = (rearIndex + 1) % MAX_SIZE;
     data[rearIndex] = value;
     count++;
 }
 
-int Queue::dequeue() {
-    if (isEmpty()) {
-        // nothing to remove
+int Queue::dequeue()
+{
+    if (isEmpty())
+    {
         return -1;
     }
     int value = data[frontIndex];
-    // move front forward in circular way
     frontIndex = (frontIndex + 1) % MAX_SIZE;
     count--;
     return value;
 }
 
-int Queue::front() const {
-    if (isEmpty()) {
+int Queue::front() const
+{
+    if (isEmpty())
+    {
         return -1;
     }
     return data[frontIndex];
 }
 
-int Queue::size() const {
+
+int Queue::size() const
+{
     return count;
 }

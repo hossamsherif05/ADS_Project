@@ -9,35 +9,29 @@
 
 class Queue {
 private:
-    static const int MAX_SIZE = 200; // capacity of queue
+    static const int MAX_SIZE = 200;
     int data[MAX_SIZE];              // storage
-    int frontIndex;                  // index of current front element
-    int rearIndex;                   // index of last element
-    int count;                       // how many elements are in the queue
+    int frontIndex;
+    int rearIndex;
+    int count;
 
 public:
-    // constructor: creates an empty queue
+
     Queue();
 
-    // returns true if queue has no elements
     bool isEmpty() const;
 
-    // returns true if queue is full (can't enqueue more)
     bool isFull() const;
 
-    // add value to the back of the queue
-    // if full, does nothing
+
     void enqueue(int value);
 
-    // remove and return the front value
-    // if empty, returns -1
+
     int dequeue();
 
-    // read (but don't remove) the front value
-    // if empty, returns -1
+
     int front() const;
 
-    // how many elements are currently stored
     int size() const;
 };
 
