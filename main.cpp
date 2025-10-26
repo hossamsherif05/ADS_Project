@@ -1,5 +1,6 @@
 #include <iostream>
 #include "graph.h"
+#include "queue.h"
 using namespace std;
 
 
@@ -43,4 +44,23 @@ int main()
     g.printNeighbors(6);
     cout << "Neighbors from 37 ";
     g.printNeighbors(37);
+
+    Queue q;
+    cout<< "Enqueing into queue..."<<endl;
+    q.enqueue(7);
+    q.enqueue(23);
+    q.enqueue(45);
+
+    cout << "Current queue size: " << q.size() <<endl;
+    cout << "Front element" << q.front() << endl;
+
+
+    cout << "Dequeuing all elements:"<<endl;
+    while (!q.isEmpty()) {
+        int element = q.dequeue();
+        cout << element<<" removed" <<endl;
+    }
+
+
+    return 0;
 }

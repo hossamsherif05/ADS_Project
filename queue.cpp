@@ -12,7 +12,8 @@ Queue::Queue()
     count = 0;
 }
 
-bool Queue::isEmpty() const {
+bool Queue::isEmpty() const
+{
     return (count == 0);
 }
 

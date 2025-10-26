@@ -40,3 +40,4 @@ int Graph::getSize()
 {
     return size;
 }
+
