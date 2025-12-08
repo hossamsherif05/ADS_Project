@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+README.md</font>
+</center></td></tr></table>
+<pre><span class="s0"># </span><span class="s2">ADS_Project</span>
+
+<span class="s2">Team Members </span><span class="s1">:</span>
+
+<span class="s2">Habiba Khashaba </span>
+<span class="s2">Ahmed Medany</span>
+<span class="s2">Hossam Sherif</span>
+<span class="s2">Ali Alkholy</span>
+<span class="s2">Hassan Rashwan </span>
+
+<span class="s2">Project Description</span><span class="s1">:</span>
+<span class="s2">This project models the Snakes and Ladders board using data structures.</span>
+<span class="s2">Each square on the board </span><span class="s1">(</span><span class="s2">1 to 100</span><span class="s1">) </span><span class="s2">is a node</span>
+<span class="s0">- </span><span class="s2">Moves </span><span class="s1">(</span><span class="s2">dice rolls, snakes, ladders</span><span class="s1">) </span><span class="s2">are edges between nodes</span>
+<span class="s0">- </span><span class="s2">We plan to use BFS to find the minimum number of dice throws to reach square 100</span>
+
+
+ <span class="s2">Main Components</span><span class="s1">:</span>
+ 
+ <span class="s2">Graph</span>
+<span class="s0">- </span><span class="s2">Stores connections between board squares</span>
+<span class="s0">- </span><span class="s2">Uses an adjacency matrix</span>
+<span class="s0">- </span><span class="s2">addEdge</span><span class="s1">(</span><span class="s2">start, end</span><span class="s1">) </span><span class="s2">creates a move from one square to another</span>
+
+<span class="s2">Queue</span>
+<span class="s0">- </span><span class="s2">Custom queue </span><span class="s1">(</span><span class="s2">no STL</span><span class="s1">)</span>
+<span class="s0">- </span><span class="s2">Will be used in BFS to explore the board level by level</span>
+<span class="s0">- </span><span class="s2">Supports</span><span class="s1">:</span>
+  <span class="s0">- </span><span class="s2">enqueue</span>
+  <span class="s0">- </span><span class="s2">dequeue</span>
+  <span class="s0">- </span><span class="s2">front</span>
+  <span class="s0">- </span><span class="s2">isEmpty</span>
+
+<span class="s2">main.cpp</span>
+<span class="s0">- </span><span class="s2">Builds the board</span>
+<span class="s0">- </span><span class="s2">Sets up snakes and ladders</span>
+<span class="s0">- </span><span class="s2">Fills the graph with all valid moves from each square </span><span class="s1">(</span><span class="s2">1 to 6 dice roll ahead</span><span class="s1">)</span>
+</pre>
+</body>
+</html>

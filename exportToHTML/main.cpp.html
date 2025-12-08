@@ -1,0 +1,244 @@
+<html>
+<head>
+<title>main.cpp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #cf8e6d;}
+.s4 { color: #bcbec4;}
+.s5 { color: #2aacb8;}
+.s6 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.cpp</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&lt;iostream&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;cstdlib&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;ctime&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;limits&gt;</span>
+
+<span class="s0">#include </span><span class="s2">&quot;graph.h&quot;</span>
+<span class="s0">#include </span><span class="s2">&quot;dijkestra.h&quot;</span>
+
+<span class="s3">using namespace </span><span class="s1">std</span><span class="s4">;</span>
+
+<span class="s3">const int </span><span class="s1">MAX_TILES </span><span class="s4">= </span><span class="s5">100</span><span class="s4">;</span>
+
+<span class="s6">// Build edges based on dice + jump</span>
+<span class="s3">void </span><span class="s1">buildBoardGraph</span><span class="s4">(</span><span class="s1">Graph </span><span class="s4">&amp;</span><span class="s1">g</span><span class="s4">, </span><span class="s3">int </span><span class="s1">jump</span><span class="s4">[], </span><span class="s3">int </span><span class="s1">size</span><span class="s4">) {</span>
+    <span class="s3">for </span><span class="s4">(</span><span class="s3">int </span><span class="s1">i </span><span class="s4">= </span><span class="s5">1</span><span class="s4">; </span><span class="s1">i </span><span class="s4">&lt;= </span><span class="s1">size</span><span class="s4">; </span><span class="s1">i</span><span class="s4">++) {</span>
+        <span class="s3">for </span><span class="s4">(</span><span class="s3">int </span><span class="s1">d </span><span class="s4">= </span><span class="s5">1</span><span class="s4">; </span><span class="s1">d </span><span class="s4">&lt;= </span><span class="s5">6</span><span class="s4">; </span><span class="s1">d</span><span class="s4">++) {</span>
+            <span class="s3">int </span><span class="s1">next </span><span class="s4">= </span><span class="s1">i </span><span class="s4">+ </span><span class="s1">d</span><span class="s4">;</span>
+            <span class="s3">if </span><span class="s4">(</span><span class="s1">next </span><span class="s4">&gt; </span><span class="s1">size</span><span class="s4">) </span><span class="s3">continue</span><span class="s4">;</span>
+
+            <span class="s3">int </span><span class="s1">finalPos </span><span class="s4">= </span><span class="s1">jump</span><span class="s4">[</span><span class="s1">next</span><span class="s4">];</span>
+            <span class="s1">g</span><span class="s4">.</span><span class="s1">addEdge</span><span class="s4">(</span><span class="s1">i</span><span class="s4">, </span><span class="s1">finalPos</span><span class="s4">);</span>
+        <span class="s4">}</span>
+    <span class="s4">}</span>
+<span class="s4">}</span>
+
+
+<span class="s6">// CLI board size chooser</span>
+<span class="s3">int </span><span class="s1">chooseBoardDim</span><span class="s4">()</span>
+<span class="s4">{</span>
+    <span class="s3">int </span><span class="s1">choice</span><span class="s4">;</span>
+
+    <span class="s3">while </span><span class="s4">(</span><span class="s5">1</span><span class="s4">)</span>
+    <span class="s4">{</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Choose board size:</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;1) 5 x 5  (25 tiles)</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;2) 8 x 8  (64 tiles)</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;3) 10 x 10 (100 tiles)</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Enter choice: &quot;</span><span class="s4">;</span>
+
+        <span class="s3">if </span><span class="s4">(!(</span><span class="s1">cin </span><span class="s4">&gt;&gt; </span><span class="s1">choice</span><span class="s4">))</span>
+        <span class="s4">{</span>
+            <span class="s6">// user typed letters or invalid format</span>
+            <span class="s1">cin</span><span class="s4">.</span><span class="s1">clear</span><span class="s4">();</span>
+            <span class="s1">cin</span><span class="s4">.</span><span class="s1">ignore</span><span class="s4">(</span><span class="s1">numeric_limits</span><span class="s4">&lt;</span><span class="s1">streamsize</span><span class="s4">&gt;</span><span class="s1">::max</span><span class="s4">(), </span><span class="s2">'</span><span class="s3">\n</span><span class="s2">'</span><span class="s4">);</span>
+            <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Invalid input. Please enter 1, 2, or 3.</span><span class="s3">\n\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+            <span class="s3">continue</span><span class="s4">;</span>
+        <span class="s4">}</span>
+
+        <span class="s3">if </span><span class="s4">(</span><span class="s1">choice </span><span class="s4">== </span><span class="s5">1</span><span class="s4">) </span><span class="s3">return </span><span class="s5">5</span><span class="s4">;</span>
+        <span class="s3">if </span><span class="s4">(</span><span class="s1">choice </span><span class="s4">== </span><span class="s5">2</span><span class="s4">) </span><span class="s3">return </span><span class="s5">8</span><span class="s4">;</span>
+        <span class="s3">if </span><span class="s4">(</span><span class="s1">choice </span><span class="s4">== </span><span class="s5">3</span><span class="s4">) </span><span class="s3">return </span><span class="s5">10</span><span class="s4">;</span>
+
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Invalid choice. Please enter 1, 2, or 3.</span><span class="s3">\n\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+    <span class="s4">}</span>
+<span class="s4">}</span>
+
+<span class="s6">// Initialize jump array (identity first)</span>
+<span class="s3">void </span><span class="s1">initJumps</span><span class="s4">(</span><span class="s3">int </span><span class="s1">jump</span><span class="s4">[], </span><span class="s3">int </span><span class="s1">tiles</span><span class="s4">)</span>
+<span class="s4">{</span>
+    <span class="s6">// 1) Default: no snakes/ladders</span>
+    <span class="s3">for </span><span class="s4">(</span><span class="s3">int </span><span class="s1">i </span><span class="s4">= </span><span class="s5">1</span><span class="s4">; </span><span class="s1">i </span><span class="s4">&lt;= </span><span class="s1">tiles</span><span class="s4">; </span><span class="s1">i</span><span class="s4">++) </span><span class="s1">jump</span><span class="s4">[</span><span class="s1">i</span><span class="s4">] = </span><span class="s1">i</span><span class="s4">;</span>
+
+    <span class="s6">// 2) 5x5 board (25 tiles) - small, balanced, noticeable impact</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">== </span><span class="s5">25</span><span class="s4">)</span>
+    <span class="s4">{</span>
+        <span class="s6">// Ladders</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">3</span><span class="s4">]  = </span><span class="s5">11</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">6</span><span class="s4">]  = </span><span class="s5">14</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">9</span><span class="s4">]  = </span><span class="s5">18</span><span class="s4">;</span>
+
+        <span class="s6">// Snakes</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">16</span><span class="s4">] = </span><span class="s5">8</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">21</span><span class="s4">] = </span><span class="s5">13</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">24</span><span class="s4">] = </span><span class="s5">15</span><span class="s4">;</span>
+
+        <span class="s3">return</span><span class="s4">;</span>
+    <span class="s4">}</span>
+
+    <span class="s6">// 3) 8x8 board (64 tiles) - medium complexity</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">== </span><span class="s5">64</span><span class="s4">)</span>
+    <span class="s4">{</span>
+        <span class="s6">// Ladders</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">4</span><span class="s4">]  = </span><span class="s5">16</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">9</span><span class="s4">]  = </span><span class="s5">31</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">20</span><span class="s4">] = </span><span class="s5">38</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">28</span><span class="s4">] = </span><span class="s5">50</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">40</span><span class="s4">] = </span><span class="s5">59</span><span class="s4">;</span>
+
+        <span class="s6">// Snakes</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">18</span><span class="s4">] = </span><span class="s5">7</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">35</span><span class="s4">] = </span><span class="s5">22</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">47</span><span class="s4">] = </span><span class="s5">26</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">53</span><span class="s4">] = </span><span class="s5">41</span><span class="s4">;</span>
+        <span class="s1">jump</span><span class="s4">[</span><span class="s5">62</span><span class="s4">] = </span><span class="s5">45</span><span class="s4">;</span>
+
+        <span class="s3">return</span><span class="s4">;</span>
+    <span class="s4">}</span>
+
+    <span class="s6">// 4) Default to 10x10 style (100 tiles)</span>
+    <span class="s6">// (also used if you ever allow other sizes &lt;= 100)</span>
+
+    <span class="s6">// Ladders</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">38</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">4</span><span class="s4">]  = </span><span class="s5">14</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">100</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">9</span><span class="s4">]  = </span><span class="s5">31</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">22</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">20</span><span class="s4">] = </span><span class="s5">38</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">84</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">28</span><span class="s4">] = </span><span class="s5">84</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">68</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">40</span><span class="s4">] = </span><span class="s5">59</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">91</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">63</span><span class="s4">] = </span><span class="s5">81</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">100</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">71</span><span class="s4">] = </span><span class="s5">91</span><span class="s4">;</span>
+
+    <span class="s6">// Snakes</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">17</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">17</span><span class="s4">] = </span><span class="s5">7</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">54</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">54</span><span class="s4">] = </span><span class="s5">34</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">62</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">62</span><span class="s4">] = </span><span class="s5">19</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">87</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">87</span><span class="s4">] = </span><span class="s5">36</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">95</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">95</span><span class="s4">] = </span><span class="s5">75</span><span class="s4">;</span>
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt;= </span><span class="s5">99</span><span class="s4">) </span><span class="s1">jump</span><span class="s4">[</span><span class="s5">99</span><span class="s4">] = </span><span class="s5">78</span><span class="s4">;</span>
+<span class="s4">}</span>
+
+
+<span class="s6">// Simple dice</span>
+<span class="s3">int </span><span class="s1">rollDice</span><span class="s4">()</span>
+<span class="s4">{</span>
+    <span class="s3">return </span><span class="s4">(</span><span class="s1">rand</span><span class="s4">() % </span><span class="s5">6</span><span class="s4">) + </span><span class="s5">1</span><span class="s4">;</span>
+<span class="s4">}</span>
+
+<span class="s6">// Prints live shortest-path hint from current position</span>
+<span class="s3">void </span><span class="s1">printLiveHint</span><span class="s4">(</span><span class="s1">Dijkstra </span><span class="s4">&amp;</span><span class="s1">dj</span><span class="s4">, </span><span class="s3">int </span><span class="s1">playerPos</span><span class="s4">, </span><span class="s3">int </span><span class="s1">tiles</span><span class="s4">)</span>
+<span class="s4">{</span>
+
+    <span class="s3">int </span><span class="s1">path</span><span class="s4">[</span><span class="s1">MAX_TILES </span><span class="s4">+ </span><span class="s5">1</span><span class="s4">];</span>
+    <span class="s3">int </span><span class="s1">len </span><span class="s4">= </span><span class="s1">dj</span><span class="s4">.</span><span class="s1">shortestPath</span><span class="s4">(</span><span class="s1">playerPos</span><span class="s4">, </span><span class="s1">tiles</span><span class="s4">, </span><span class="s1">path</span><span class="s4">, </span><span class="s1">tiles </span><span class="s4">+ </span><span class="s5">1</span><span class="s4">);</span>
+
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">len </span><span class="s4">== </span><span class="s5">0</span><span class="s4">) {</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Hint: no path found (check board setup).</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+        <span class="s3">return</span><span class="s4">;</span>
+    <span class="s4">}</span>
+
+    <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Hint shortest path from &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">playerPos </span><span class="s4">&lt;&lt; </span><span class="s2">&quot; to &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">tiles </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;:</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+    <span class="s3">for </span><span class="s4">(</span><span class="s3">int </span><span class="s1">i </span><span class="s4">= </span><span class="s5">0</span><span class="s4">; </span><span class="s1">i </span><span class="s4">&lt; </span><span class="s1">len</span><span class="s4">; </span><span class="s1">i</span><span class="s4">++) {</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s1">path</span><span class="s4">[</span><span class="s1">i</span><span class="s4">] &lt;&lt; </span><span class="s2">&quot; &quot;</span><span class="s4">;</span>
+    <span class="s4">}</span>
+    <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">Minimum remaining moves (best-case) = &quot; </span><span class="s4">&lt;&lt; (</span><span class="s1">len </span><span class="s4">- </span><span class="s5">1</span><span class="s4">) &lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+<span class="s4">}</span>
+
+
+<span class="s3">int </span><span class="s1">main</span><span class="s4">()</span>
+<span class="s4">{</span>
+    <span class="s1">srand</span><span class="s4">((</span><span class="s3">unsigned</span><span class="s4">)</span><span class="s1">time</span><span class="s4">(</span><span class="s3">nullptr</span><span class="s4">));</span>
+
+    <span class="s6">// 1) user chooses board size</span>
+    <span class="s3">int </span><span class="s1">dim </span><span class="s4">= </span><span class="s1">chooseBoardDim</span><span class="s4">();</span>
+    <span class="s3">int </span><span class="s1">tiles </span><span class="s4">= </span><span class="s1">dim </span><span class="s4">* </span><span class="s1">dim</span><span class="s4">;</span>
+
+    <span class="s3">if </span><span class="s4">(</span><span class="s1">tiles </span><span class="s4">&gt; </span><span class="s1">MAX_TILES</span><span class="s4">) </span><span class="s1">tiles </span><span class="s4">= </span><span class="s1">MAX_TILES</span><span class="s4">;</span>
+
+    <span class="s6">// Consume leftover newline from cin</span>
+    <span class="s6">// kholy</span>
+    <span class="s1">cin</span><span class="s4">.</span><span class="s1">ignore</span><span class="s4">(</span><span class="s1">numeric_limits</span><span class="s4">&lt;</span><span class="s1">streamsize</span><span class="s4">&gt;</span><span class="s1">::max</span><span class="s4">(), </span><span class="s2">'</span><span class="s3">\n</span><span class="s2">'</span><span class="s4">);</span>
+
+    <span class="s6">// 2) setup graph + jumps</span>
+    <span class="s1">Graph g</span><span class="s4">;</span>
+    <span class="s1">g</span><span class="s4">.</span><span class="s1">setSize</span><span class="s4">(</span><span class="s1">tiles</span><span class="s4">);</span>
+
+    <span class="s3">int </span><span class="s1">jump</span><span class="s4">[</span><span class="s1">MAX_TILES </span><span class="s4">+ </span><span class="s5">1</span><span class="s4">];</span>
+    <span class="s1">initJumps</span><span class="s4">(</span><span class="s1">jump</span><span class="s4">, </span><span class="s1">tiles</span><span class="s4">);</span>
+
+    <span class="s1">buildBoardGraph</span><span class="s4">(</span><span class="s1">g</span><span class="s4">, </span><span class="s1">jump</span><span class="s4">, </span><span class="s1">tiles</span><span class="s4">);</span>
+
+    <span class="s1">Dijkstra dj</span><span class="s4">(</span><span class="s1">g</span><span class="s4">);</span>
+
+    <span class="s6">// 3) gameplay</span>
+    <span class="s3">int </span><span class="s1">playerPos </span><span class="s4">= </span><span class="s5">1</span><span class="s4">;</span>
+
+    <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">Game started: &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">dim </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;x&quot; </span><span class="s4">&lt;&lt; </span><span class="s1">dim</span>
+         <span class="s4">&lt;&lt; </span><span class="s2">&quot; (&quot; </span><span class="s4">&lt;&lt; </span><span class="s1">tiles </span><span class="s4">&lt;&lt; </span><span class="s2">&quot; tiles)</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+
+    <span class="s6">// Show initial hint from tile 1</span>
+    <span class="s1">printLiveHint</span><span class="s4">(</span><span class="s1">dj</span><span class="s4">, </span><span class="s1">playerPos</span><span class="s4">, </span><span class="s1">tiles</span><span class="s4">);</span>
+
+    <span class="s3">while </span><span class="s4">(</span><span class="s1">playerPos </span><span class="s4">!= </span><span class="s1">tiles</span><span class="s4">)</span>
+    <span class="s4">{</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">You are on tile &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">playerPos</span>
+             <span class="s4">&lt;&lt; </span><span class="s2">&quot;. Press Enter to roll the dice...&quot;</span><span class="s4">;</span>
+        <span class="s1">cin</span><span class="s4">.</span><span class="s1">get</span><span class="s4">();</span>
+
+        <span class="s3">int </span><span class="s1">dice </span><span class="s4">= </span><span class="s1">rollDice</span><span class="s4">();</span>
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Dice = &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">dice </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+
+        <span class="s3">int </span><span class="s1">oldPos </span><span class="s4">= </span><span class="s1">playerPos</span><span class="s4">;</span>
+
+        <span class="s6">// Move only if not exceeding last tile</span>
+        <span class="s3">if </span><span class="s4">(</span><span class="s1">playerPos </span><span class="s4">+ </span><span class="s1">dice </span><span class="s4">&lt;= </span><span class="s1">tiles</span><span class="s4">) {</span>
+            <span class="s1">playerPos </span><span class="s4">+= </span><span class="s1">dice</span><span class="s4">;</span>
+        <span class="s4">} </span><span class="s3">else </span><span class="s4">{</span>
+            <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Roll exceeds final tile. Staying at &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">playerPos </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+        <span class="s4">}</span>
+
+        <span class="s3">int </span><span class="s1">afterMove </span><span class="s4">= </span><span class="s1">playerPos</span><span class="s4">;</span>
+
+        <span class="s6">// Apply snake/ladder</span>
+        <span class="s1">playerPos </span><span class="s4">= </span><span class="s1">jump</span><span class="s4">[</span><span class="s1">playerPos</span><span class="s4">];</span>
+
+        <span class="s3">if </span><span class="s4">(</span><span class="s1">playerPos </span><span class="s4">!= </span><span class="s1">afterMove</span><span class="s4">) {</span>
+            <span class="s3">if </span><span class="s4">(</span><span class="s1">playerPos </span><span class="s4">&gt; </span><span class="s1">afterMove</span><span class="s4">)</span>
+                <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Ladder! &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">afterMove </span><span class="s4">&lt;&lt; </span><span class="s2">&quot; -&gt; &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">playerPos </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+            <span class="s3">else</span>
+                <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Snake! &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">afterMove </span><span class="s4">&lt;&lt; </span><span class="s2">&quot; -&gt; &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">playerPos </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+        <span class="s4">}</span>
+
+        <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;Moved: &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">oldPos </span><span class="s4">&lt;&lt; </span><span class="s2">&quot; -&gt; &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">playerPos </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+
+        <span class="s6">// ✅ 4) This is YOUR requirement:</span>
+        <span class="s6">// update shortest path each time from CURRENT position</span>
+
+        <span class="s1">printLiveHint</span><span class="s4">(</span><span class="s1">dj</span><span class="s4">, </span><span class="s1">playerPos</span><span class="s4">, </span><span class="s1">tiles</span><span class="s4">);</span>
+    <span class="s4">}</span>
+
+    <span class="s1">cout </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;</span><span class="s3">\n </span><span class="s2">You reached tile &quot; </span><span class="s4">&lt;&lt; </span><span class="s1">tiles </span><span class="s4">&lt;&lt; </span><span class="s2">&quot;! You win!</span><span class="s3">\n</span><span class="s2">&quot;</span><span class="s4">;</span>
+    <span class="s3">return </span><span class="s5">0</span><span class="s4">;</span>
+<span class="s4">}</span>
+</pre>
+</body>
+</html>

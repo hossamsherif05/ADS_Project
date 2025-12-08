@@ -8,4 +8,6 @@ add_executable(untitled main.cpp
         graph.h
         queue.h
         queue.cpp
+        dijkestra.cpp
+        dijkestra.h
 )

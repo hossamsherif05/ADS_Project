@@ -1,21 +1,22 @@
-#ifndef SNAKES_AND_LADDERS_GRAPH_H
-#define SNAKES_AND_LADDERS_GRAPH_H
+#ifndef GRAPH_H
+#define GRAPH_H
+
+#include <iostream>
 
 class Graph {
-public:
-    static const int MAX = 101; // we support tiles 1..100
-
 private:
-    int node[MAX][MAX]; // adjacency matrix
-    int size;           // how many tiles are in the board (100)
+    static const int MAX_SIZE = 100;
+    int size;
+    int node[MAX_SIZE + 1][MAX_SIZE + 1];
 
 public:
-    Graph(); // constructor
+    Graph();                 // default 100
+    void setSize(int s);     // allow smaller boards
 
     void addEdge(int start, int end);
-    int isEdge(int start, int end);
-    void printNeighbors(int tile);
-    int getSize();
+    int  isEdge(int start, int end) const;
+    void printNeighbors(int tile) const;
+    int  getSize() const;
 };
 
-#endif // SNAKES_AND_LADDERS_GRAPH_H
+#endif

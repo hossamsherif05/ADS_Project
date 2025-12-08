@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>graph.cpp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #bcbec4;}
+.s4 { color: #cf8e6d;}
+.s5 { color: #2aacb8;}
+.s6 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+graph.cpp</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&quot;graph.h&quot;</span>
+
+<span class="s1">Graph::Graph</span><span class="s3">() {</span>
+    <span class="s1">size </span><span class="s3">= </span><span class="s1">MAX_SIZE</span><span class="s3">;</span>
+    <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">i </span><span class="s3">= </span><span class="s5">1</span><span class="s3">; </span><span class="s1">i </span><span class="s3">&lt;= </span><span class="s1">MAX_SIZE</span><span class="s3">; </span><span class="s1">i</span><span class="s3">++) {</span>
+        <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">j </span><span class="s3">= </span><span class="s5">1</span><span class="s3">; </span><span class="s1">j </span><span class="s3">&lt;= </span><span class="s1">MAX_SIZE</span><span class="s3">; </span><span class="s1">j</span><span class="s3">++) {</span>
+            <span class="s1">node</span><span class="s3">[</span><span class="s1">i</span><span class="s3">][</span><span class="s1">j</span><span class="s3">] = </span><span class="s5">0</span><span class="s3">;</span>
+        <span class="s3">}</span>
+    <span class="s3">}</span>
+<span class="s3">}</span>
+
+<span class="s4">void </span><span class="s1">Graph::setSize</span><span class="s3">(</span><span class="s4">int </span><span class="s1">s</span><span class="s3">) {</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">s </span><span class="s3">&lt; </span><span class="s5">1</span><span class="s3">) </span><span class="s1">s </span><span class="s3">= </span><span class="s5">1</span><span class="s3">;</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">s </span><span class="s3">&gt; </span><span class="s1">MAX_SIZE</span><span class="s3">) </span><span class="s1">s </span><span class="s3">= </span><span class="s1">MAX_SIZE</span><span class="s3">;</span>
+    <span class="s1">size </span><span class="s3">= </span><span class="s1">s</span><span class="s3">;</span>
+
+    <span class="s6">// Clear only relevant region (safe and simple)</span>
+    <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">i </span><span class="s3">= </span><span class="s5">1</span><span class="s3">; </span><span class="s1">i </span><span class="s3">&lt;= </span><span class="s1">MAX_SIZE</span><span class="s3">; </span><span class="s1">i</span><span class="s3">++)</span>
+     <span class="s3">{</span>
+        <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">j </span><span class="s3">= </span><span class="s5">1</span><span class="s3">; </span><span class="s1">j </span><span class="s3">&lt;= </span><span class="s1">MAX_SIZE</span><span class="s3">; </span><span class="s1">j</span><span class="s3">++) {</span>
+            <span class="s1">node</span><span class="s3">[</span><span class="s1">i</span><span class="s3">][</span><span class="s1">j</span><span class="s3">] = </span><span class="s5">0</span><span class="s3">;</span>
+        <span class="s3">}</span>
+    <span class="s3">}</span>
+<span class="s3">}</span>
+
+
+<span class="s4">void </span><span class="s1">Graph::addEdge</span><span class="s3">(</span><span class="s4">int </span><span class="s1">start</span><span class="s3">, </span><span class="s4">int </span><span class="s1">end</span><span class="s3">) {</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">start </span><span class="s3">&lt; </span><span class="s5">1 </span><span class="s3">|| </span><span class="s1">start </span><span class="s3">&gt; </span><span class="s1">size</span><span class="s3">) </span><span class="s4">return</span><span class="s3">;</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">end </span><span class="s3">&lt; </span><span class="s5">1 </span><span class="s3">|| </span><span class="s1">end </span><span class="s3">&gt; </span><span class="s1">size</span><span class="s3">) </span><span class="s4">return</span><span class="s3">;</span>
+    <span class="s1">node</span><span class="s3">[</span><span class="s1">start</span><span class="s3">][</span><span class="s1">end</span><span class="s3">] = </span><span class="s5">1</span><span class="s3">;</span>
+<span class="s3">}</span>
+
+<span class="s4">int </span><span class="s1">Graph::isEdge</span><span class="s3">(</span><span class="s4">int </span><span class="s1">start</span><span class="s3">, </span><span class="s4">int </span><span class="s1">end</span><span class="s3">) </span><span class="s4">const </span><span class="s3">{</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">start </span><span class="s3">&lt; </span><span class="s5">1 </span><span class="s3">|| </span><span class="s1">start </span><span class="s3">&gt; </span><span class="s1">size</span><span class="s3">) </span><span class="s4">return </span><span class="s5">0</span><span class="s3">;</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">end </span><span class="s3">&lt; </span><span class="s5">1 </span><span class="s3">|| </span><span class="s1">end </span><span class="s3">&gt; </span><span class="s1">size</span><span class="s3">) </span><span class="s4">return </span><span class="s5">0</span><span class="s3">;</span>
+    <span class="s4">return </span><span class="s1">node</span><span class="s3">[</span><span class="s1">start</span><span class="s3">][</span><span class="s1">end</span><span class="s3">];</span>
+<span class="s3">}</span>
+
+<span class="s4">void </span><span class="s1">Graph::printNeighbors</span><span class="s3">(</span><span class="s4">int </span><span class="s1">tile</span><span class="s3">) </span><span class="s4">const </span><span class="s3">{</span>
+    <span class="s4">if </span><span class="s3">(</span><span class="s1">tile </span><span class="s3">&lt; </span><span class="s5">1 </span><span class="s3">|| </span><span class="s1">tile </span><span class="s3">&gt; </span><span class="s1">size</span><span class="s3">) </span><span class="s4">return</span><span class="s3">;</span>
+
+    <span class="s1">std::cout </span><span class="s3">&lt;&lt; </span><span class="s2">&quot;Neighbors of &quot; </span><span class="s3">&lt;&lt; </span><span class="s1">tile </span><span class="s3">&lt;&lt; </span><span class="s2">&quot;: &quot;</span><span class="s3">;</span>
+    <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">j </span><span class="s3">= </span><span class="s5">1</span><span class="s3">; </span><span class="s1">j </span><span class="s3">&lt;= </span><span class="s1">size</span><span class="s3">; </span><span class="s1">j</span><span class="s3">++) {</span>
+        <span class="s4">if </span><span class="s3">(</span><span class="s1">node</span><span class="s3">[</span><span class="s1">tile</span><span class="s3">][</span><span class="s1">j</span><span class="s3">]) </span><span class="s1">std::cout </span><span class="s3">&lt;&lt; </span><span class="s1">j </span><span class="s3">&lt;&lt; </span><span class="s2">&quot; &quot;</span><span class="s3">;</span>
+    <span class="s3">}</span>
+    <span class="s1">std::cout </span><span class="s3">&lt;&lt; </span><span class="s2">&quot;</span><span class="s4">\n</span><span class="s2">&quot;</span><span class="s3">;</span>
+<span class="s3">}</span>
+
+<span class="s4">int </span><span class="s1">Graph::getSize</span><span class="s3">() </span><span class="s4">const </span><span class="s3">{</span>
+    <span class="s4">return </span><span class="s1">size</span><span class="s3">;</span>
+<span class="s3">}</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>queue.h</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #bcbec4;}
+.s1 { color: #7a7e85;}
+.s2 { color: #b3ae60;}
+.s3 { color: #cf8e6d;}
+.s4 { color: #bcbec4;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+queue.h</font>
+</center></td></tr></table>
+<pre>
+<span class="s1">// Simple queue of integers</span>
+<span class="s1">// We will use this in BFS (shortest path search)</span>
+<span class="s1">// We don't use STL here (no std::queue)</span>
+
+
+<span class="s2">#ifndef </span><span class="s0">UNTITLED_QUEUE_H</span>
+<span class="s2">#define </span><span class="s0">UNTITLED_QUEUE_H</span>
+
+<span class="s3">class </span><span class="s0">Queue </span><span class="s4">{</span>
+<span class="s3">private</span><span class="s0">:</span>
+    <span class="s3">static const int </span><span class="s0">capacity </span><span class="s4">= </span><span class="s5">101</span><span class="s4">; </span><span class="s1">// max number of items we can store</span>
+    <span class="s3">int </span><span class="s0">data</span><span class="s4">[</span><span class="s0">capacity</span><span class="s4">];              </span><span class="s1">// the array that holds the values</span>
+    <span class="s3">int </span><span class="s0">frontIndex</span><span class="s4">;                  </span><span class="s1">// index of the first element (front of queue)</span>
+    <span class="s3">int </span><span class="s0">rearIndex</span><span class="s4">;                   </span><span class="s1">// index of the last element (back of queue)</span>
+    <span class="s3">int </span><span class="s0">count</span><span class="s4">;                       </span><span class="s1">// how many elements are in the queue now</span>
+
+<span class="s3">public</span><span class="s0">:</span>
+    <span class="s1">// constructor: sets everything to empty</span>
+    <span class="s0">Queue</span><span class="s4">();</span>
+
+    <span class="s1">// returns true if queue has no elements</span>
+    <span class="s3">bool </span><span class="s0">isEmpty</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+
+    <span class="s1">// returns true if queue is full (can't add more)</span>
+    <span class="s3">bool </span><span class="s0">isFull</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+
+    <span class="s1">// put a value at the back of the queue</span>
+    <span class="s3">void </span><span class="s0">enqueue</span><span class="s4">(</span><span class="s3">int </span><span class="s0">value</span><span class="s4">);</span>
+
+    <span class="s1">// take out and return the value at the front of the queue</span>
+    <span class="s1">// returns -1 if queue is empty</span>
+    <span class="s3">int </span><span class="s0">dequeue</span><span class="s4">();</span>
+
+    <span class="s1">// just look at the first element without removing it</span>
+    <span class="s1">// returns -1 if queue is empty</span>
+    <span class="s3">int </span><span class="s0">front</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+
+    <span class="s1">// returns how many items are inside the queue</span>
+    <span class="s3">int </span><span class="s0">size</span><span class="s4">() </span><span class="s3">const</span><span class="s4">;</span>
+<span class="s4">};</span>
+
+<span class="s2">#endif</span>
+</pre>
+</body>
+</html>
